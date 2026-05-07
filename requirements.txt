@@ -1,4 +1,6 @@
 flask
 flask-cors
-tensorflow
 numpy
+Pillow
+tensorflow
+gunicorn
