@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Thai AI Vision</title>
+
+<style>
+body{
+margin:0;
+background: radial-gradient(circle at top,#1a001f,#000);
+font-family: Arial;
+color:white;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.bg-glow{
+position:absolute;
+width:500px;
+height:500px;
+background: radial-gradient(circle,#ff4fd8,transparent);
+filter:blur(120px);
+opacity:0.2;
+}
+
+.card{
+position:relative;
+width:420px;
+padding:20px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,79,216,0.4);
+border-radius:18px;
+backdrop-filter: blur(20px);
+text-align:center;
+}
+
+canvas{
+background:black;
+border:1px solid #ff4fd8;
+border-radius:12px;
+cursor:crosshair;
+}
+
+button{
+margin:6px;
+padding:10px 14px;
+background:rgba(255,79,216,0.15);
+border:1px solid rgba(255,79,216,0.4);
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{
+background:rgba(255,79,216,0.35);
+}
+
+.result{
+margin-top:10px;
+font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="card">
+
+<h2>Thai Number AI</h2>
+
+<canvas id="c" width="280" height="280"></canvas>
+
+<div>
+<button onclick="predict()">Predict</button>
+<button onclick="clearCanvas()">Clear</button>
+</div>
+
+<div class="result" id="out">Result: -</div>
+
+<div>
+<button onclick="window.location.href='/login'">
+Admin Access
+</button>
+</div>
+
+</div>
+
+<script>
+const c=document.getElementById("c");
+const ctx=c.getContext("2d");
+
+ctx.fillStyle="black";
+ctx.fillRect(0,0,280,280);
+
+let draw=false;
+
+c.onmousedown=e=>{
+draw=true;
+ctx.beginPath();
+ctx.moveTo(e.offsetX,e.offsetY);
+};
+
+c.onmousemove=e=>{
+if(!draw) return;
+ctx.lineWidth=14;
+ctx.lineCap="round";
+ctx.strokeStyle="#ffffff";
+ctx.lineTo(e.offsetX,e.offsetY);
+ctx.stroke();
+};
+
+window.onmouseup=()=>draw=false;
+
+function clearCanvas(){
+ctx.fillStyle="black";
+ctx.fillRect(0,0,280,280);
+document.getElementById("out").innerText="Result: -";
+}
+
+async function predict(){
+try{
+let img=c.toDataURL("image/png");
+
+document.getElementById("out").innerText="Processing...";
+
+let res=await fetch("/predict",{   // 🔥 FIX: ไม่ใช้ localhost แล้ว
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({image:img})
+});
+
+let d=await res.json();
+
+if(d.error){
+document.getElementById("out").innerText="Error: "+d.error;
+return;
+}
+
+document.getElementById("out").innerHTML=
+"Result: <b>"+d.result+"</b><br>"+
+"Confidence: <b>"+d.confidence+"%</b>";
+
+}catch(err){
+document.getElementById("out").innerText="Connection Error";
+console.log(err);
+}
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+background: radial-gradient(circle at top, #1a001f, #000);
+overflow: hidden;
+color: white;
+}
+
+/* ===== BACKGROUND GLOW ===== */
+.bg-glow {
+position: absolute;
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, #ff4fd8, transparent 60%);
+filter: blur(140px);
+opacity: 0.25;
+}
+
+/* ===== GLASS CARD ===== */
+.card {
+position: relative;
+width: 420px;
+padding: 25px;
+border-radius: 20px;
+
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,79,216,0.35);
+
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+
+box-shadow: 0 0 60px rgba(255,79,216,0.15);
+
+text-align: center;
+z-index: 2;
+}
+
+/* ===== INPUT ===== */
+input {
+width: 100%;
+padding: 12px;
+margin: 10px 0;
+
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,79,216,0.4);
+
+color: white;
+border-radius: 12px;
+outline: none;
+}
+
+/* ===== GLASS BUTTON ===== */
+button {
+margin: 6px;
+padding: 10px 14px;
+
+background: rgba(255,79,216,0.15);
+border: 1px solid rgba(255,79,216,0.4);
+
+color: white;
+border-radius: 12px;
+cursor: pointer;
+
+backdrop-filter: blur(10px);
+transition: 0.25s;
+}
+
+button:hover {
+background: rgba(255,79,216,0.35);
+transform: translateY(-2px);
+}
+
+/* ===== CANVAS ===== */
+canvas {
+background: rgba(0,0,0,0.6);
+border: 1px solid rgba(255,79,216,0.4);
+border-radius: 14px;
+cursor: crosshair;
+}
+
+/* ===== RESULT ===== */
+.result {
+margin-top: 12px;
+font-size: 16px;
+}
+
+b {
+color: #ff4fd8;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="card">
+
+<h2>Model Control</h2>
+
+<input type="file" id="file">
+
+<button onclick="upload()">Upload Model</button>
+
+<p id="status"></p>
+
+<button onclick="window.location.href='/'">
+Back
+</button>
+
+</div>
+
+<script>
+async function upload(){
+let file=document.getElementById("file").files[0];
+
+let form=new FormData();
+form.append("model",file);
+
+let res=await fetch("http://localhost:5000/upload",{
+method:"POST",
+body:form
+});
+
+let d=await res.json();
+
+document.getElementById("status").innerText=d.status;
+}
+</script>
+
+</body>
+</html>

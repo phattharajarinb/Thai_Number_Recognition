@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="card">
+
+<h2>Admin Access</h2>
+
+<input id="u" placeholder="Username">
+<input id="p" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+async function login(){
+let res=await fetch("http://localhost:5000/auth",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+user:document.getElementById("u").value,
+pass:document.getElementById("p").value
+})
+});
+
+let d=await res.json();
+
+if(d.status=="ok"){
+window.location.href="/admin";
+}else{
+document.getElementById("msg").innerText="Invalid credentials";
+}
+}
+</script>
+
+</body>
+</html>
